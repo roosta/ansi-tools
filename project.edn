@@ -1,0 +1,4 @@
+{:name nansi
+ :version "0.1.0-alpha"
+ :description "ANSI escape artist"
+ :dependencies [[heyLu/hiccup.pxi "0.1.1-alpha"]]}
