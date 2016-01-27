@@ -1,8 +1,9 @@
 #!/usr/bin/env pixie-vm
 (ns nansi.core
   (:require [pixie.io :as io]
-            [pixie.string :as string]
-            [hiccup.core :refer :all]))
+            [pixie.string :as s]
+            ;[hiccup.core :refer :all]
+            ))
 
 (def symbols {"┌" "&#9484;"
               "┐" "&#9488;"
@@ -15,14 +16,22 @@
               "▀" "&#9600;"
               "▄" "&#9604;"})
 
-(defn read-file [file]
-  (-> (io/slurp file)
-      (string/split-lines)))
+;(defn read-file [file]
+  ;(-> (io/slurp file)
+      ;(string/split-lines)))
 
-(defn generate-html [input]
-  (html [:span.test
-          input]))
+(defn swap-char [i]
+  (doseq [[k v] symbols]
+    ;(println v))
+    (println (s/replace i k v))
+    )
+  )
 
-(println(generate-html "askjdhaksjhd"))
+;(defn generate-html [input]
+  ;(html [:span.test
+          ;input]))
+
+;(println "hello")
+(println(swap-char "┌───────────────────────────────────────────────────────────────────────┐"))
 ;(defn main [])
 ;(println (first (read-file "ansi.txt")))
