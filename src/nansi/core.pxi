@@ -20,18 +20,26 @@
   ;(-> (io/slurp file)
       ;(string/split-lines)))
 
+;(defn swap-char [i]
+  ;(doseq [[k v] symbols]
+    ;(s/replace i k v))
+  ;)
+
 (defn swap-char [i]
-  (doseq [[k v] symbols]
-    ;(println v))
-    (println (s/replace i k v))
-    )
+  (let [result []]
+    (doseq [[k v] symbols]
+
+      ))
   )
+
+;(defn asd [i]
+  ;(s/replace i #"[┌┐└┘│─░█▀▄]" #(get symbols %1)))
 
 ;(defn generate-html [input]
   ;(html [:span.test
           ;input]))
 
 ;(println "hello")
-(println(swap-char "┌───────────────────────────────────────────────────────────────────────┐"))
+(println(asd "┌───────────────────────────────────────────────────────────────────────┐"))
 ;(defn main [])
 ;(println (first (read-file "ansi.txt")))
