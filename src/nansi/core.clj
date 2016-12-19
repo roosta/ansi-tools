@@ -46,7 +46,8 @@
   []
   (for [line lines
         :let [padding-length (- longest-length (count line))]]
-    (take padding-length (repeatedly (fn [] " ")))))
+    (apply str (repeat padding-length \space))
+    #_(take padding-length (repeatedly (fn [] " ")))))
 
 (def padding (get-padding))
 
@@ -54,13 +55,14 @@
   []
   (map-indexed
    (fn [idx line]
-     (conj (nth padding idx) line))
+     (str (nth padding idx) line))
    lines)
   )
 
 ;; (println (join-line-padding))
 ;; (println lines)
 
+;; (println (first padding))
 (doseq [l (join-line-padding)]
   (println l))
 ;; (println (join-line-padding))
