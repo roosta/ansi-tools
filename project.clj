@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/tools.cli "0.3.5"]
+                 [hiccup "1.0.5"]
                  [org.clojure/clojure "1.9.0-alpha14"]]
   :main ^:skip-aot nansi.core
   :target-path "target/%s"
