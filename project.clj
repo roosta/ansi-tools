@@ -3,9 +3,31 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
+
   :dependencies [[org.clojure/tools.cli "0.3.5"]
                  [hiccup "1.0.5"]
-                 [org.clojure/clojure "1.9.0-alpha14"]]
+                 [org.clojure/clojure "1.9.0-alpha14"]
+                 [org.clojure/clojurescript "1.9.293"]]
+
+  :plugins [[lein-cljsbuild "1.1.4"]
+            [lein-npm "0.4.0"]]
+
   :main ^:skip-aot nansi.core
+
   :target-path "target/%s"
+
+  :source-paths ["src/clj"]
+
+  :node-dependencies [[source-map-support "0.2.8"]]
+
+  :cljsbuild
+  {:builds [{:id "dev"
+             :source-paths ["src/cljs"]
+             :compiler {:main nansi.core
+                        :output-to "out/nansi.js"
+                        :output-dir "out"
+                        :optimizations :none
+                        :sourcemap true
+                        :target :nodejs}}]}
+
   :profiles {:uberjar {:aot :all}})
