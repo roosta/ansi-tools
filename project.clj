@@ -20,12 +20,12 @@
 
   :node-dependencies [[source-map-support "0.2.8"]]
 
-  :clean-targets ^{:protect false} ["out" "target"]
+  :clean-targets ^{:protect false} ["out" "target" "main.js"]
   
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
-                        :compiler {:main 'nansi.core
-                                   :output-to "out/main.js"
+                        :compiler {:main "nansi.core"
+                                   :output-to "main.js"
                                    :output-dir "out"
                                    :optimizations :none
                                    :source-map true
