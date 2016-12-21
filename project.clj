@@ -9,7 +9,7 @@
                  [org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/clojurescript "1.9.293"]]
 
-  :plugins [[lein-cljsbuild "1.1.4"]
+  :plugins [[lein-cljsbuild "1.1.5"]
             [lein-npm "0.4.0"]]
 
   :main ^:skip-aot nansi.core
@@ -20,14 +20,16 @@
 
   :node-dependencies [[source-map-support "0.2.8"]]
 
-  :cljsbuild
-  {:builds [{:id "dev"
-             :source-paths ["src/cljs"]
-             :compiler {:main 'nansi.core
-                        :output-to "out/nansi.js"
-                        :output-dir "out"
-                        :optimizations :none
-                        :sourcemap true
-                        :target :nodejs}}]}
+  :clean-targets ^{:protect false} ["out" "target"]
+  
+  :cljsbuild {:builds [{:id "nansi"
+                        :scurce-paths ["src/cljs"]
+                        :compiler {
+                                   ; :main 'nansi.core
+                                   :output-to "main.js"
+                                   :output-dir "out"
+                                   :optimizations :none
+                                   :source-map true
+                                   :target :nodejs}}]}
 
   :profiles {:uberjar {:aot :all}})

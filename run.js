@@ -3,6 +3,6 @@ try {
 } catch(err) {
 }
 require("./out/goog/bootstrap/nodejs.js");
-require("./out/nansi.js");
-goog.require("nansi.core");
+require("./out/main.js");
+goog.require("main.core");
 goog.require("cljs.nodejscli");

@@ -14,7 +14,7 @@
 
 (defn replace-char
   []
-  (let [ascii (s/split-lines (slurp "partial.txt"))]
+  (let [ascii (s/split-lines (slurp "resources/partial.txt"))]
     (reduce
      (fn [acc line]
        (let [r (apply str (reverse line))
