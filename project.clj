@@ -22,11 +22,10 @@
 
   :clean-targets ^{:protect false} ["out" "target"]
   
-  :cljsbuild {:builds [{:id "nansi"
-                        :scurce-paths ["src/cljs"]
-                        :compiler {
-                                   ; :main 'nansi.core
-                                   :output-to "main.js"
+  :cljsbuild {:builds [{:id "dev"
+                        :source-paths ["src/cljs"]
+                        :compiler {:main 'nansi.core
+                                   :output-to "out/main.js"
                                    :output-dir "out"
                                    :optimizations :none
                                    :source-map true
