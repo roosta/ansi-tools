@@ -23,7 +23,7 @@
   :cljsbuild
   {:builds [{:id "dev"
              :source-paths ["src/cljs"]
-             :compiler {:main nansi.core
+             :compiler {:main 'nansi.core
                         :output-to "out/nansi.js"
                         :output-dir "out"
                         :optimizations :none
