@@ -16,7 +16,7 @@
 
   :target-path "target/%s"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "scripts"]
 
   :node-dependencies [[source-map-support "0.2.8"]]
 
