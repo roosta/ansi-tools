@@ -2,6 +2,6 @@
 
 (b/watch "src"
   {:main 'nansi.core
-   :output-to "out/mies_empty.js"
+   :output-to "main.js"
    :output-dir "out"})
 

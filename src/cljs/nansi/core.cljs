@@ -1,11 +1,14 @@
 (ns nansi.core
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require
    [clojure.string :as string]
    [clojure.tools.cli :refer [parse-opts]]
-   ;; [nansi.mirror :as m]
+   [cljs.core.async :refer [put! chan <! >! timeout close!]]
+   [nansi.mirror :as m]
    [cljs.nodejs :as nodejs]))
 
 (nodejs/enable-util-print!)
+(def fs (nodejs/require "fs"))
 
 (defn usage [options-summary]
   (->> ["This is my program. There are many like it, but this one is mine."
@@ -31,12 +34,35 @@
   (println msg)
   (.exit js/process status))
 
+(defn valid-file?
+  [file]
+  (let [ch (chan)]
+      (.access fs
+                 file
+                 (aget fs "constants" "R_OK")
+                 (fn [err]
+                   (if err
+                     (go
+                       (>! ch false)
+                       (>! ch true)))))
+        ))
+
 (def cli-options
   ;; An option with a required argument
-  [["-p" "--port PORT" "Port number"
-    :default 80
+  [["-f" "--file FILE" "Filename"
+    ;; :default 80
     ;; :parse-fn #(Integer/parseInt %)
-    :validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
+    ;; :validate [#(< 0 % 0x10000) "Must be a valid file"]
+    :validate [#(let [ch (chan)]
+                  (.access fs
+                            %
+                            (aget fs "constants" "R_OK")
+                            (fn [err]
+                              (if err
+                                (reset! error true)
+                                (reset! error false))))
+                  @error)
+               "Must be a valid file"]]
    ;; A non-idempotent option
    ["-v" nil "Verbosity level"
     :id :verbosity
@@ -55,8 +81,16 @@
 
     ;; Execute program with options
     (case (first arguments)
-      "start" (println "start called")
-      "stop" (println "stop called")
+      "test" (valid-file? "resources/partial.txt")
+      "read-file" (.access fs
+                           "resources/partial.txt"
+                            (aget fs "constants" "R_OK")
+                            (fn [err]
+                              (if err
+                                (println "error")
+                                (println "no error"))))
+      ;; "mirror" (mirror/output)
+      "mirror" (println "stop called")
       "options" (println options)
       (exit 1 (usage summary)))))
 

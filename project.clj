@@ -7,6 +7,7 @@
   :dependencies [[org.clojure/tools.cli "0.3.5"]
                  [hiccup "1.0.5"]
                  [org.clojure/clojure "1.9.0-alpha14"]
+                 [org.clojure/core.async "0.2.395"]
                  [org.clojure/clojurescript "1.9.293"]]
 
   :plugins [[lein-cljsbuild "1.1.5"]
@@ -21,7 +22,7 @@
   :node-dependencies [[source-map-support "0.2.8"]]
 
   :clean-targets ^{:protect false} ["out" "target" "main.js"]
-  
+
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
                         :compiler {:main "nansi.core"
