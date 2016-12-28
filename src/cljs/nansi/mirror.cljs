@@ -1,4 +1,5 @@
 (ns nansi.mirror
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [clojure.string :as s]
             [cljs.nodejs :as nodejs]))
 
@@ -14,8 +15,8 @@
   #"[├┘└┐┌┤]")
 
 (defn replace-char
-  [input]
-  (let [ascii (s/split-lines input)]
+  [file]
+  (let [ascii (s/split-lines file)]
     (reduce
      (fn [acc line]
        (let [r (apply str (reverse line))
@@ -28,23 +29,26 @@
 (def longest-length (-> (sort-by count lines)
                         last
                         count))
-
 (defn get-padding
-  []
-  (for [line lines
-        :let [padding-length (- longest-length (count line))]]
-    (apply str (repeat padding-length \space))))
+  [lines]
+  (let [longest-length (-> (sort-by count lines)
+                           last
+                           count)]
+    (for [line lines
+          :let [padding-length (- longest-length (count line))]]
+      (apply str (repeat padding-length \space)))))
 
 (defn join-line-padding
-  []
-  (let [padding (get-padding)]
+  [lines]
+  (let [padding (get-padding lines)]
     (map-indexed
      (fn [idx line]
        (str (nth padding idx) line))
      lines)))
 
 (defn output
-  []
-  (doseq [l (join-line-padding)]
-    (println l))
+  [ch]
+  (go (let [lines (reverse (replace-char (<! ch)))]
+        (doseq [l (join-line-padding lines)]
+          (println l))))
   )

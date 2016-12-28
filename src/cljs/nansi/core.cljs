@@ -3,8 +3,8 @@
   (:require
    [clojure.string :as string]
    [clojure.tools.cli :refer [parse-opts]]
-   [cljs.core.async :refer [put! chan <! >! timeout close!]]
-   [nansi.mirror :as m]
+   [cljs.core.async :refer [put! alts! chan <! >! timeout close!]]
+   [nansi.mirror :as mirror]
    [cljs.nodejs :as nodejs]))
 
 (nodejs/enable-util-print!)
@@ -37,15 +37,29 @@
 (defn valid-file?
   [file]
   (let [ch (chan)]
-      (.access fs
-                 file
-                 (aget fs "constants" "R_OK")
-                 (fn [err]
-                   (if err
-                     (go
-                       (>! ch false)
-                       (>! ch true)))))
-        ))
+    (go (<! ch))
+    (.access fs
+             file
+             (aget fs "constants" "R_OK")
+             (fn [err]
+               (go
+                 (if err
+                   (>! ch false)
+                   (>! ch true)))))))
+
+(defn read-file
+  [path]
+  (let [ch (chan)]
+      (.readFile
+       fs
+       path
+       "utf8"
+       (fn [err data]
+         (go
+           (if err
+             (>! ch err)
+             (>! ch data)))))
+      ch))
 
 (def cli-options
   ;; An option with a required argument
@@ -53,16 +67,9 @@
     ;; :default 80
     ;; :parse-fn #(Integer/parseInt %)
     ;; :validate [#(< 0 % 0x10000) "Must be a valid file"]
-    :validate [#(let [ch (chan)]
-                  (.access fs
-                            %
-                            (aget fs "constants" "R_OK")
-                            (fn [err]
-                              (if err
-                                (reset! error true)
-                                (reset! error false))))
-                  @error)
-               "Must be a valid file"]]
+    ;; :validate [#(valid-file? %)
+    ;;            "Must be a valid file"]
+    ]
    ;; A non-idempotent option
    ["-v" nil "Verbosity level"
     :id :verbosity
@@ -81,16 +88,10 @@
 
     ;; Execute program with options
     (case (first arguments)
-      "test" (valid-file? "resources/partial.txt")
-      "read-file" (.access fs
-                           "resources/partial.txt"
-                            (aget fs "constants" "R_OK")
-                            (fn [err]
-                              (if err
-                                (println "error")
-                                (println "no error"))))
+      "test" (.log js/console (valid-file? "resources/partial.txt"))
+      "read-file" (go (.log js/console (<! (read-file "resources/partial.txt"))))
       ;; "mirror" (mirror/output)
-      "mirror" (println "stop called")
+      "mirror" (mirror/output (read-file "resources/partial.txt"))
       "options" (println options)
       (exit 1 (usage summary)))))
 
