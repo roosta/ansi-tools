@@ -37,7 +37,6 @@
 (defn valid-file?
   [file]
   (let [ch (chan)]
-    (go (<! ch))
     (.access fs
              file
              (aget fs "constants" "R_OK")
@@ -45,7 +44,8 @@
                (go
                  (if err
                    (>! ch false)
-                   (>! ch true)))))))
+                   (>! ch true)))))
+    ch))
 
 (defn read-file
   [path]
@@ -83,14 +83,18 @@
     ;; Handle help and error conditions
     (cond
       (:help options) (exit 0 (usage summary))
-      (not= (count arguments) 1) (exit 1 (usage summary))
+      (< (count arguments) 1) (exit 1 (usage summary))
       errors (exit 1 (error-msg errors)))
 
     ;; Execute program with options
     (case (first arguments)
-      "test" (.log js/console (valid-file? "resources/partial.txt"))
+      "valid-file" (go (.log js/console (<! (valid-file? "resources/partial.txt"))))
       "read-file" (go (.log js/console (<! (read-file "resources/partial.txt"))))
       ;; "mirror" (mirror/output)
+      "test" (if (> (count arguments) 1)
+               (.log js/console (last arguments))
+               (exit 1 (usage summary))
+               )
       "mirror" (mirror/output (read-file "resources/partial.txt"))
       "options" (println options)
       (exit 1 (usage summary)))))
