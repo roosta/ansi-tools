@@ -16,19 +16,16 @@
 
 (defn replace-char
   [file]
-  (let [ascii (s/split-lines file)]
-    (reduce
-     (fn [acc line]
-       (let [r (apply str (reverse line))
-             c (s/replace r regex #(get pairs %))]
-         (conj acc c)))
-     '()
-     ascii)))
+  (let [lines (s/split-lines file)]
+    (reverse
+     (reduce
+      (fn [acc line]
+        (let [r (apply str (reverse line))
+              c (s/replace r regex #(get pairs %))]
+          (conj acc c)))
+      '()
+      lines))))
 
-(def lines (reverse (replace-char)))
-(def longest-length (-> (sort-by count lines)
-                        last
-                        count))
 (defn get-padding
   [lines]
   (let [longest-length (-> (sort-by count lines)
@@ -48,7 +45,7 @@
 
 (defn output
   [ch]
-  (go (let [lines (reverse (replace-char (<! ch)))]
+  (go (let [lines (replace-char (<! ch))]
         (doseq [l (join-line-padding lines)]
           (println l))))
   )
