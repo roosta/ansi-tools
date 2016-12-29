@@ -21,12 +21,11 @@
    "┆" "&#9478;"
    "░" "&#9617;"
    "█" "&#9608;"
+   " " "&nbsp;"
    "▀" "&#9600;"
    "▄" "&#9604;"})
 
-
-(def regex #"[├┘└┐┌┤│─░█▀▄┴┬╌┼┆]")
-
+(def regex #"[├┘└┐┌┤│─░█▀▄┴┬╌┼┆ ]")
 
 (defn swap-chars
   [line]
@@ -38,7 +37,9 @@
   [ch]
   (go (let [lines (s/split-lines (<! ch))]
         (doseq [l lines]
-          (println (swap-chars l)))
+          (println
+           (html
+            [:span (apply str (swap-chars l))][:br])))
         ))
   #_(doseq [[k v] symbols]
     (println (s/replace input k v))))
