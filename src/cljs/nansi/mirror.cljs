@@ -1,6 +1,7 @@
 (ns nansi.mirror
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [clojure.string :as s]
+            [cljs.core.async :refer [put! alts! chan <! >! timeout close!]]
             [cljs.nodejs :as nodejs]))
 
 (def pairs
@@ -43,7 +44,7 @@
        (str (nth padding idx) line))
      lines)))
 
-(defn output
+(defn main
   [ch]
   (go (let [lines (replace-char (<! ch))]
         (doseq [l (join-line-padding lines)]

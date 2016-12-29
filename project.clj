@@ -7,6 +7,7 @@
   :dependencies [[org.clojure/tools.cli "0.3.5"]
                  [hiccup "1.0.5"]
                  [org.clojure/clojure "1.9.0-alpha14"]
+                 [hiccups "0.3.0"]
                  [org.clojure/core.async "0.2.395"]
                  [org.clojure/clojurescript "1.9.293"]]
 

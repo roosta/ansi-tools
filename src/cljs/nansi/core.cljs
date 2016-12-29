@@ -58,7 +58,7 @@
        (fn [err data]
          (go
            (if err
-             (>! ch err)
+             (exit 1 (.log js/console err))
              (>! ch data)))))
       ch))
 
@@ -85,8 +85,8 @@
     (cond
       (:help options) (exit 0 (usage summary))
       (not= (count arguments) 1) (exit 1 (usage summary))
-      (:mirror options) (mirror/output (read-file (first arguments)))
-      (:html options) (html/output (read-file (first arguments)))
+      (:mirror options) (mirror/main (read-file (first arguments)))
+      (:html options) (html/main (read-file (first arguments)))
       errors (exit 1 (error-msg errors)))
 
     #_(println options)
