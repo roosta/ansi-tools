@@ -5,6 +5,7 @@
    [clojure.tools.cli :refer [parse-opts]]
    [cljs.core.async :refer [put! alts! chan <! >! timeout close!]]
    [nansi.mirror :as mirror]
+   [nansi.html :as html]
    [cljs.nodejs :as nodejs]))
 
 (nodejs/enable-util-print!)
@@ -63,13 +64,14 @@
 
 (def cli-options
   ;; An option with a required argument
-  [["-f" "--file FILE" "Filename"
+  [["-m" "--mirror" "Mirror input"
     ;; :default 80
     ;; :parse-fn #(Integer/parseInt %)
     ;; :validate [#(< 0 % 0x10000) "Must be a valid file"]
     ;; :validate [#(valid-file? %)
     ;;            "Must be a valid file"]
     ]
+   ["-H" "--html" "output escaped html"]
    ;; A non-idempotent option
    ["-v" nil "Verbosity level"
     :id :verbosity
@@ -80,14 +82,16 @@
 
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
-    ;; Handle help and error conditions
     (cond
       (:help options) (exit 0 (usage summary))
-      (< (count arguments) 1) (exit 1 (usage summary))
+      (not= (count arguments) 1) (exit 1 (usage summary))
+      (:mirror options) (mirror/output (read-file (first arguments)))
+      (:html options) (html/output (read-file (first arguments)))
       errors (exit 1 (error-msg errors)))
 
+    #_(println options)
     ;; Execute program with options
-    (case (first arguments)
+    #_(case (first arguments)
       "valid-file" (go (.log js/console (<! (valid-file? "resources/partial.txt"))))
       "read-file" (go (.log js/console (<! (read-file "resources/partial.txt"))))
       ;; "mirror" (mirror/output)
