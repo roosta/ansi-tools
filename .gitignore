@@ -13,3 +13,4 @@ node_modules
 out
 main.js
 .cljs_node_repl
+index.html

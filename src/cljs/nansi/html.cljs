@@ -39,7 +39,7 @@
         (doseq [l lines]
           (println
            (html
-            [:span (apply str (swap-chars l))][:br])))
+            [:span (apply str (swap-chars l))])))
         ))
   #_(doseq [[k v] symbols]
     (println (s/replace input k v))))
