@@ -6,7 +6,9 @@
 
   :dependencies [[org.clojure/tools.cli "0.3.5"]
                  [org.clojure/clojure "1.9.0-alpha14"]
-                 [sablono "0.7.7"]
+                 [hiccups "0.3.0"]
+                 [cljsjs/react "15.4.2-0"]
+                 [cljsjs/react-dom "15.4.2-0"]
                  [org.clojure/core.async "0.2.395"]
                  [org.clojure/clojurescript "1.9.293"]]
 
