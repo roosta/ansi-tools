@@ -1,4 +1,4 @@
-(ns nansi.html
+(ns nansi.pain
   (:require-macros
    [hiccups.core :as hiccups :refer [html]]
    [cljs.core.async.macros :refer [go go-loop]])
@@ -8,24 +8,22 @@
    [cljs.core.async :refer [put! alts! chan <! >! timeout close!]]))
 
 (def symbols
-  {"┌" "&#9484;"
-   "┐" "&#9488;"
-   "└" "&#9492;"
-   "┘" "&#9496;"
-   "│" "&#9474;"
-   "─" "&#9472;"
-   "┬" "&#9516;"
-   "┴" "&#9524;"
-   "├" "&#9500;"
-   "┤" "&#9508;"
-   "┼" "&#9532;"
-   "╌" "&#9548;"
-   "┆" "&#9478;"
-   "░" "&#9617;"
-   "█" "&#9608;"
-   " " "&nbsp;"
-   "▀" "&#9600;"
-   "▄" "&#9604;"})
+  {"┌" "┌"
+   "┐" "┐"
+   "└" "└"
+   "┘" "┘"
+   "│" "│"
+   "─" "─"
+   "┬" "┬"
+   "┴" "┴"
+   "├" "├"
+   "┤" "┤"
+   "┼" "┼"
+   "░" "░"
+   "█" "█"
+   " " " "
+   "▀" "▀"
+   "▄" "▄"})
 
 (def regex #"[├┘└┐┌┤│─░█▀▄┴┬╌┼┆ ]")
 
@@ -44,4 +42,4 @@
             [:span (apply str (swap-chars l))])))
         ))
   #_(doseq [[k v] symbols]
-    (println (s/replace input k v))))
+      (println (s/replace input k v))))
