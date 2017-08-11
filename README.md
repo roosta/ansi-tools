@@ -15,7 +15,7 @@ node main.js
 ```
 
 ## Options
-Supports to options at the moment, and both needs an input file
+Supports two options at the moment, and both needs an input file
 - mirror: create a mirrored output of input file arg
 - html: create escaped HTML from input file arg
 
