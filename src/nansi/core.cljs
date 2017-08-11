@@ -12,19 +12,12 @@
 (def fs (nodejs/require "fs"))
 
 (defn usage [options-summary]
-  (->> ["This is my program. There are many like it, but this one is mine."
+  (->> ["ASCII/ANSI Helper library"
         ""
-        "Usage: program-name [options] action"
+        "Usage: nansi [options] file"
         ""
         "Options:"
-        options-summary
-        ""
-        "Actions:"
-        "  start    Start a new server"
-        "  stop     Stop an existing server"
-        "  status   Print a server's status"
-        ""
-        "Please refer to the manual page for more information."]
+        options-summary]
        (string/join \newline)))
 
 (defn error-msg [errors]
@@ -63,21 +56,7 @@
       ch))
 
 (def cli-options
-  ;; An option with a required argument
-  [["-m" "--mirror" "Mirror input"
-    ;; :default 80
-    ;; :parse-fn #(Integer/parseInt %)
-    ;; :validate [#(< 0 % 0x10000) "Must be a valid file"]
-    ;; :validate [#(valid-file? %)
-    ;;            "Must be a valid file"]
-    ]
-   ["-H" "--html" "output escaped html"]
-   ;; A non-idempotent option
-   ["-v" nil "Verbosity level"
-    :id :verbosity
-    :default 0
-    :assoc-fn (fn [m k _] (update-in m [k] inc))]
-   ;; A boolean option defaulting to nil
+  [["-m" "--mirror" "Mirror input"]
    ["-h" "--help"]])
 
 (defn -main [& args]
@@ -86,21 +65,6 @@
       (:help options) (exit 0 (usage summary))
       (not= (count arguments) 1) (exit 1 (usage summary))
       (:mirror options) (mirror/main (read-file (first arguments)))
-      (:html options) (html/main (read-file (first arguments)))
-      errors (exit 1 (error-msg errors)))
-
-    #_(println options)
-    ;; Execute program with options
-    #_(case (first arguments)
-      "valid-file" (go (.log js/console (<! (valid-file? "resources/partial.txt"))))
-      "read-file" (go (.log js/console (<! (read-file "resources/partial.txt"))))
-      ;; "mirror" (mirror/output)
-      "test" (if (> (count arguments) 1)
-               (.log js/console (last arguments))
-               (exit 1 (usage summary))
-               )
-      "mirror" (mirror/output (read-file "resources/partial.txt"))
-      "options" (println options)
-      (exit 1 (usage summary)))))
+      errors (exit 1 (error-msg errors)))))
 
 (set! *main-cli-fn* -main)
