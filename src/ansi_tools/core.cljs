@@ -1,34 +1,32 @@
-(ns nansi.core
-  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+(ns ansi-tools.core
   (:require
-   [clojure.string :as string]
-   [clojure.tools.cli :refer [parse-opts]]
-   [cljs.core.async :refer [put! alts! chan <! >! timeout close!]]
-   [nansi.mirror :as mirror]
-   [nansi.html :as html]
+   [clojure.string :as s]
+   [cljs.tools.cli :refer [parse-opts]]
+   [ansi-tools.mirror :as mirror]
    [cljs.nodejs :as nodejs]))
 
 (nodejs/enable-util-print!)
 (def fs (nodejs/require "fs"))
+(def read-file (.-readFileSync fs))
 
 (defn usage [options-summary]
   (->> ["ASCII/ANSI Helper library"
         ""
-        "Usage: nansi [options] file"
+        "Usage: ansi-tools [options] file"
         ""
         "Options:"
         options-summary]
-       (string/join \newline)))
+       (s/join \newline)))
 
 (defn error-msg [errors]
   (str "The following errors occurred while parsing your command:\n\n"
-       (string/join \newline errors)))
+       (s/join \newline errors)))
 
 (defn exit [status msg]
   (println msg)
   (.exit js/process status))
 
-(defn valid-file?
+#_(defn valid-file?
   [file]
   (let [ch (chan)]
     (.access fs
@@ -41,7 +39,7 @@
                    (>! ch true)))))
     ch))
 
-(defn read-file
+#_(defn read-file
   [path]
   (let [ch (chan)]
       (.readFile
@@ -67,4 +65,4 @@
       (:mirror options) (mirror/main (read-file (first arguments)))
       errors (exit 1 (error-msg errors)))))
 
-(set! *main-cli-fn* -main)
+;; (set! *main-cli-fn* -main)

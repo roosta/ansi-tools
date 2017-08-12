@@ -1,0 +1,62 @@
+* Change Log
+  :PROPERTIES:
+  :CUSTOM_ID: change-log
+  :END:
+
+All notable changes to this project will be documented in this file.
+This change log follows the conventions of
+[[http://keepachangelog.com/][keepachangelog.com]].
+
+** [[https://github.com/your-name/nansi/compare/0.1.1...HEAD][Unreleased]]
+   :PROPERTIES:
+   :CUSTOM_ID: unreleased
+   :END:
+
+*** Changed
+    :PROPERTIES:
+    :CUSTOM_ID: changed
+    :END:
+
+-  Add a new arity to =make-widget-async= to provide a different widget
+   shape.
+
+** [[https://github.com/your-name/nansi/compare/0.1.0...0.1.1][0.1.1]] -
+2016-12-11
+   :PROPERTIES:
+   :CUSTOM_ID: section
+   :END:
+
+*** Changed
+    :PROPERTIES:
+    :CUSTOM_ID: changed-1
+    :END:
+
+-  Documentation on how to make the widgets.
+
+*** Removed
+    :PROPERTIES:
+    :CUSTOM_ID: removed
+    :END:
+
+-  =make-widget-sync= - we're all async, all the time.
+
+*** Fixed
+    :PROPERTIES:
+    :CUSTOM_ID: fixed
+    :END:
+
+-  Fixed widget maker to keep working when daylight savings switches
+   over.
+
+** 0.1.0 - 2016-12-11
+   :PROPERTIES:
+   :CUSTOM_ID: section-1
+   :END:
+
+*** Added
+    :PROPERTIES:
+    :CUSTOM_ID: added
+    :END:
+
+-  Files from the new template.
+-  Widget maker public API - =make-widget-sync=.

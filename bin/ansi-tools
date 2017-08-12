@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+ANSI_TOOLS_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
+"$ANSI_TOOLS_HOME"/node_modules/lumo-cljs/bin/lumo \
+  -c src:"$ANSI_TOOLS_HOME"/lib/tools.cli-0.3.5.jar \
+  -m ansi-tools.core "$@"

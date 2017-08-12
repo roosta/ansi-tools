@@ -1,0 +1,25 @@
+{
+  "name": "ansi-tools",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "Transform ANSI/ASCII art in various ways",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roosta/ansi-tools.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roosta/ansi-tools/issues"
+  },
+  "homepage": "https://github.com/roosta/ansi-tools#readme",
+  "dependencies": {
+    "lumo-cljs": "^1.6.0"
+  }
+}
