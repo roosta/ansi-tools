@@ -26,33 +26,6 @@
   (println msg)
   (.exit js/process status))
 
-#_(defn valid-file?
-  [file]
-  (let [ch (chan)]
-    (.access fs
-             file
-             (aget fs "constants" "R_OK")
-             (fn [err]
-               (go
-                 (if err
-                   (>! ch false)
-                   (>! ch true)))))
-    ch))
-
-#_(defn read-file
-  [path]
-  (let [ch (chan)]
-      (.readFile
-       fs
-       path
-       "utf8"
-       (fn [err data]
-         (go
-           (if err
-             (exit 1 (.log js/console err))
-             (>! ch data)))))
-      ch))
-
 (def cli-options
   [["-m" "--mirror" "Mirror input"]
    ["-h" "--help"]])
@@ -64,5 +37,3 @@
       (not= (count arguments) 1) (exit 1 (usage summary))
       (:mirror options) (mirror/main (read-file (first arguments)))
       errors (exit 1 (error-msg errors)))))
-
-;; (set! *main-cli-fn* -main)
