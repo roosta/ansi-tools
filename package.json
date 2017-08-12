@@ -1,21 +1,20 @@
 {
   "name": "ansi-tools",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "0.0.1",
   "description": "Transform ANSI/ASCII art in various ways",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+  "bin": {
     "ansi-tools": "bin/ansi-tools"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/roosta/ansi-tools.git"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "keywords": [],
-  "author": "",
-  "license": "EPL",
+  "author": "Daniel Berg",
+  "license": "EPL-1.0",
   "bugs": {
     "url": "https://github.com/roosta/ansi-tools/issues"
   },
